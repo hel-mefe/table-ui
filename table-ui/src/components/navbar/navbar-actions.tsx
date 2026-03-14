@@ -1,5 +1,5 @@
-import Avatar from "./avatar"
-import { Profile } from "../features/profile/profile.types"
+import Avatar from "../avatar"
+import { Profile } from "../../features/profile/profile.types"
 import { TiMessages } from "react-icons/ti"
 import { IoIosNotificationsOutline } from "react-icons/io"
 

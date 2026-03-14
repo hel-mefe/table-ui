@@ -1,4 +1,4 @@
-import Navbar from "./components/navbar"
+import Navbar from "./components/navbar/navbar"
 import { navigationItems } from "./features/navigation/navigation-items.config"
 import { mockProfile1, mockProfile2 } from "./features/profile/profile.data"
 

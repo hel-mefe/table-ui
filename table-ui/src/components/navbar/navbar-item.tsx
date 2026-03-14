@@ -1,4 +1,4 @@
-import { NavItem } from "../features/navigation/navigation.types"
+import { NavItem } from "../../features/navigation/navigation.types"
 
 interface NavbarItemProps {
   item: NavItem
