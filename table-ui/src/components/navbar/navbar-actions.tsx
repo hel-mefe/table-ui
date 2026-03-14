@@ -1,7 +1,9 @@
+import { Box } from "@mui/material"
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone"
+import MailOutlineIcon from "@mui/icons-material/MailOutline"
+
 import Avatar from "../avatar"
 import { Profile } from "../../features/profile/profile.types"
-import { TiMessages } from "react-icons/ti"
-import { IoIosNotificationsOutline } from "react-icons/io"
 
 interface NavbarActionsProps {
   profile: Profile
@@ -9,10 +11,21 @@ interface NavbarActionsProps {
 
 export default function NavbarActions({ profile }: NavbarActionsProps) {
   return (
-    <div className="flex text-[#687582] h-10 gap-x-10 items-center">
-      <IoIosNotificationsOutline size={"24px"} />
-      <TiMessages size={"24px"} />
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        height: "40px",
+        gap: "40px"
+      }}
+    >
+
+      <NotificationsNoneIcon sx={{ cursor: "pointer" }} />
+
+      <MailOutlineIcon sx={{ cursor: "pointer" }} />
+
       <Avatar profile={profile} />
-    </div>
+
+    </Box>
   )
 }

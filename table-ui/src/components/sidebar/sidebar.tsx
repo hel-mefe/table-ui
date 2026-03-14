@@ -3,6 +3,7 @@ import SidebarCheckbox from "./sidebar-checkbox"
 import SidebarDateInput from "./sidebar-date-input"
 import { SidebarProps } from "./sidebar.types"
 
+
 export default function Sidebar({
   filters,
   onChange,
@@ -12,17 +13,23 @@ export default function Sidebar({
   return (
     <aside
       className="
-      bg-background-sidebar
-      w-[280px]
+      bg-[#F4F7F9]
+      w-[288px]
       min-h-screen
-      p-6
+      p-4
       flex
       flex-col
       gap-y-8
+      justify-between
       "
     >
 
-      <h2 className="font-semibold text-text-primary">
+    <div className="flex gap-x-2 justify-center items-center">
+        <h2 className="text-[#1A78F2]">Gler</h2>
+        <h3>Admin Panel</h3>
+    </div>
+
+      <h2 className="flex items-center text-md rounded-lg font-semibold px-4 py-2 text-text-primary text-black bg-[#D3D8DD] ">
         User Management
       </h2>
 
@@ -39,6 +46,8 @@ export default function Sidebar({
           border
           border-border-default
           rounded-md
+          bg-whiteWe'll switch the approach now, we'll work with 
+          w-[127px]
           px-3
           py-2
           "

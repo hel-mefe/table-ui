@@ -1,3 +1,4 @@
+import { Typography, Box } from "@mui/material"
 import { NavItem } from "../../features/navigation/navigation.types"
 
 interface NavbarItemProps {
@@ -6,11 +7,27 @@ interface NavbarItemProps {
 
 export default function NavbarItem({ item }: NavbarItemProps) {
   return (
-    <a
+    <Box
+      component="a"
       href={item.path}
-      className="text-sm hover:text-black cursor-pointer"
+      sx={{
+        height: "40px",
+        display: "flex",
+        alignItems: "center",
+        px: "12px",
+        cursor: "pointer",
+        textDecoration: "none",
+        color: "text.primary"
+      }}
     >
-      {item.label}
-    </a>
+      <Typography
+        sx={{
+          fontSize: "14px",
+          fontWeight: 500
+        }}
+      >
+        {item.label}
+      </Typography>
+    </Box>
   )
 }
