@@ -10,8 +10,8 @@ interface NavbarActionsProps {
 export default function NavbarActions({ profile }: NavbarActionsProps) {
   return (
     <div className="flex text-[#687582] h-10 gap-x-10 items-center">
-      <IoIosNotificationsOutline size={18} />
-      <TiMessages size={18} />
+      <IoIosNotificationsOutline size={"24px"} />
+      <TiMessages size={"24px"} />
       <Avatar profile={profile} />
     </div>
   )

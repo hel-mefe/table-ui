@@ -9,11 +9,11 @@ export default function Avatar({ profile }: AvatarProps) {
     <div className="flex items-center gap-x-2">
       <img
         src={profile.avatarUrl}
-        className="w-6 h-6 rounded-full"
+        className="w-8 h-8 rounded-full"
       />
 
       <div className="flex flex-col">
-        <span className="text-sm">{profile.name}</span>
+        <span className="text-xs">{profile.name}</span>
         <span className="text-xs">{profile.location}</span>
       </div>
     </div>
