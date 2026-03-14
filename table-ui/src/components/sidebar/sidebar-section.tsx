@@ -1,3 +1,5 @@
+import { Stack, Typography } from "@mui/material"
+
 interface SidebarSectionProps {
   title: string
   children: React.ReactNode
@@ -8,12 +10,20 @@ export default function SidebarSection({
   children
 }: SidebarSectionProps) {
   return (
-    <div className="flex flex-col gap-y-4">
-      <h3 className="text-text-primary font-semibold">
+    <Stack spacing={1.5}>
+      <Typography
+        sx={{
+          fontSize: 14,
+          fontWeight: 600,
+          color: "#2F3A4A"
+        }}
+      >
         {title}
-      </h3>
+      </Typography>
 
-      {children}
-    </div>
+      <Stack spacing={1}>
+        {children}
+      </Stack>
+    </Stack>
   )
 }

@@ -1,3 +1,9 @@
+import {
+  TextField,
+  Stack,
+  Typography
+} from "@mui/material"
+
 interface SidebarDateInputProps {
   label: string
   value?: string
@@ -10,24 +16,36 @@ export default function SidebarDateInput({
   onChange
 }: SidebarDateInputProps) {
   return (
-    <div className="flex flex-col gap-y-1">
-      <span className="text-xs text-text-secondary">
-        {label}
-      </span>
+    <Stack spacing={0.5}>
 
-      <input
+      <Typography
+        sx={{
+          fontSize: 12,
+          color: "#687582"
+        }}
+      >
+        Date
+      </Typography>
+
+      <TextField
+        size="small"
         type="date"
-        value={value}
+        value={value ?? ""}
         onChange={(e) => onChange(e.target.value)}
-        className="
-        border
-        border-border-default
-        rounded-md
-        px-3
-        py-2
-        text-sm
-        "
+        InputLabelProps={{
+          shrink: true
+        }}
       />
-    </div>
+
+      <Typography
+        sx={{
+          fontSize: 11,
+          color: "#687582"
+        }}
+      >
+        MM/DD/YYYY
+      </Typography>
+
+    </Stack>
   )
 }

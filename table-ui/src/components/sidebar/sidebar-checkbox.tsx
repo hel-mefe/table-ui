@@ -1,7 +1,12 @@
+import {
+  Checkbox,
+  FormControlLabel
+} from "@mui/material"
+
 interface SidebarCheckboxProps {
   label: string
   checked: boolean
-  onChange: (checked: boolean) => void
+  onChange: () => void
 }
 
 export default function SidebarCheckbox({
@@ -10,15 +15,21 @@ export default function SidebarCheckbox({
   onChange
 }: SidebarCheckboxProps) {
   return (
-    <label className="flex items-center gap-x-3 text-text-secondary cursor-pointer">
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-        className="w-4 h-4 border-border-default rounded"
-      />
-
-      {label}
-    </label>
+    <FormControlLabel
+      control={
+        <Checkbox
+          size="small"
+          checked={checked}
+          onChange={onChange}
+        />
+      }
+      label={label}
+      sx={{
+        m: 0,
+        "& .MuiTypography-root": {
+          fontSize: 14
+        }
+      }}
+    />
   )
 }
