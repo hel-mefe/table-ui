@@ -1,8 +1,17 @@
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Stack,
+  Paper
+} from "@mui/material"
+
 import SidebarSection from "./sidebar-section"
 import SidebarCheckbox from "./sidebar-checkbox"
 import SidebarDateInput from "./sidebar-date-input"
-import { SidebarProps } from "./sidebar.types"
 
+import { SidebarProps } from "./sidebar.types"
 
 export default function Sidebar({
   filters,
@@ -10,160 +19,239 @@ export default function Sidebar({
   onApply,
   onClear
 }: SidebarProps) {
+
+  const toggleArrayValue = (
+    array: string[] | undefined,
+    value: string
+  ) => {
+    if (!array) return [value]
+
+    return array.includes(value)
+      ? array.filter((v) => v !== value)
+      : [...array, value]
+  }
+
   return (
-    <aside
-      className="
-      bg-[#F4F7F9]
-      w-[288px]
-      min-h-screen
-      p-4
-      flex
-      flex-col
-      gap-y-8
-      justify-between
-      "
+    <Box
+      component="aside"
+      sx={{
+        width: 288,
+        height: "100%",
+        bgcolor: "#F4F7F9",
+        p: "16px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between"
+      }}
     >
 
-    <div className="flex gap-x-2 justify-center items-center">
-        <h2 className="text-[#1A78F2]">Gler</h2>
-        <h3>Admin Panel</h3>
-    </div>
+      {/* TOP CONTENT */}
+      <Stack spacing={3}>
 
-      <h2 className="flex items-center text-md rounded-lg font-semibold px-4 py-2 text-text-primary text-black bg-[#D3D8DD] ">
-        User Management
-      </h2>
+        {/* LOGO */}
+        <Stack direction="row" spacing={1} alignItems="center">
+          <Typography
+            sx={{
+              color: "#1A78F2",
+              fontWeight: 700,
+              fontSize: 18
+            }}
+          >
+            gler
+          </Typography>
 
-      {/* Postcode */}
-      <SidebarSection title="Postcode">
-        <input
-          type="text"
-          placeholder="ZIP"
-          value={filters.postcode ?? ""}
-          onChange={(e) =>
-            onChange({ ...filters, postcode: e.target.value })
-          }
-          className="
-          border
-          border-border-default
-          rounded-md
-          bg-whiteWe'll switch the approach now, we'll work with 
-          w-[127px]
-          px-3
-          py-2
-          "
-        />
-      </SidebarSection>
+          <Typography sx={{ fontSize: 14 }}>
+            Admin Panel
+          </Typography>
+        </Stack>
 
-      {/* Registration Status */}
-      <SidebarSection title="Registration Status">
-        <SidebarCheckbox
-          label="Onboarded"
-          checked={filters.status?.includes("Onboarded") ?? false}
-          onChange={() => {}}
-        />
+        {/* USER MANAGEMENT PILL */}
+        <Paper
+          elevation={0}
+          sx={{
+            bgcolor: "#D3D8DD",
+            px: 2,
+            py: 1,
+            borderRadius: "8px"
+          }}
+        >
+          <Typography fontWeight={600}>
+            User Management
+          </Typography>
+        </Paper>
 
-        <SidebarCheckbox
-          label="Rejected"
-          checked={filters.status?.includes("Rejected") ?? false}
-          onChange={() => {}}
-        />
-      </SidebarSection>
+        {/* POSTCODE */}
+        <SidebarSection title="Postcode">
+          <TextField
+            size="small"
+            placeholder="ZIP"
+            value={filters.postcode ?? ""}
+            onChange={(e) =>
+              onChange({
+                ...filters,
+                postcode: e.target.value
+              })
+            }
+            sx={{
+              width: 130,
+              bgcolor: "white"
+            }}
+          />
+        </SidebarSection>
 
-      {/* Date */}
-      <SidebarSection title="Date Registered">
+        {/* REGISTRATION STATUS */}
+        <SidebarSection title="Registration Status">
 
-        <div className="flex gap-x-3">
-
-          <SidebarDateInput
-            label="Start"
-            value={filters.startDate}
-            onChange={(value) =>
-              onChange({ ...filters, startDate: value })
+          <SidebarCheckbox
+            label="Onboarded"
+            checked={filters.status?.includes("Onboarded") ?? false}
+            onChange={() =>
+              onChange({
+                ...filters,
+                status: toggleArrayValue(filters.status, "Onboarded")
+              })
             }
           />
 
-          <SidebarDateInput
-            label="End"
-            value={filters.endDate}
-            onChange={(value) =>
-              onChange({ ...filters, endDate: value })
+          <SidebarCheckbox
+            label="Rejected"
+            checked={filters.status?.includes("Rejected") ?? false}
+            onChange={() =>
+              onChange({
+                ...filters,
+                status: toggleArrayValue(filters.status, "Rejected")
+              })
             }
           />
 
-        </div>
+        </SidebarSection>
 
-      </SidebarSection>
+        {/* DATE REGISTERED */}
+        <SidebarSection title="Date Registered">
 
-      {/* Vendor Type */}
-      <SidebarSection title="Vendor Type">
+          <Stack direction="row" spacing={1}>
 
-        <SidebarCheckbox
-          label="Independent"
-          checked={filters.vendorType?.includes("Independent") ?? false}
-          onChange={() => {}}
-        />
+            <SidebarDateInput
+              label="Start"
+              value={filters.startDate}
+              onChange={(value) =>
+                onChange({
+                  ...filters,
+                  startDate: value
+                })
+              }
+            />
 
-        <SidebarCheckbox
-          label="Company"
-          checked={filters.vendorType?.includes("Company") ?? false}
-          onChange={() => {}}
-        />
+            <SidebarDateInput
+              label="End"
+              value={filters.endDate}
+              onChange={(value) =>
+                onChange({
+                  ...filters,
+                  endDate: value
+                })
+              }
+            />
 
-      </SidebarSection>
+          </Stack>
 
-      {/* Service Offering */}
-      <SidebarSection title="Service Offering">
+        </SidebarSection>
 
-        <SidebarCheckbox
-          label="Housekeeping"
-          checked={false}
-          onChange={() => {}}
-        />
+        {/* VENDOR TYPE */}
+        <SidebarSection title="Vendor Type">
 
-        <SidebarCheckbox
-          label="Window Cleaning"
-          checked={false}
-          onChange={() => {}}
-        />
+          <SidebarCheckbox
+            label="Independent"
+            checked={filters.vendorType?.includes("Independent") ?? false}
+            onChange={() =>
+              onChange({
+                ...filters,
+                vendorType: toggleArrayValue(
+                  filters.vendorType,
+                  "Independent"
+                )
+              })
+            }
+          />
 
-        <SidebarCheckbox
-          label="Car Valet"
-          checked={false}
-          onChange={() => {}}
-        />
+          <SidebarCheckbox
+            label="Company"
+            checked={filters.vendorType?.includes("Company") ?? false}
+            onChange={() =>
+              onChange({
+                ...filters,
+                vendorType: toggleArrayValue(
+                  filters.vendorType,
+                  "Company"
+                )
+              })
+            }
+          />
 
-      </SidebarSection>
+        </SidebarSection>
 
-      {/* Actions */}
+        {/* SERVICE OFFERING */}
+        <SidebarSection title="Service Offering">
 
-      <div className="flex flex-col gap-y-3 mt-auto">
+          <SidebarCheckbox
+            label="Housekeeping"
+            checked={filters.serviceOffering?.includes("Housekeeping") ?? false}
+            onChange={() =>
+              onChange({
+                ...filters,
+                serviceOffering: toggleArrayValue(
+                  filters.serviceOffering,
+                  "Housekeeping"
+                )
+              })
+            }
+          />
 
-        <button
-          onClick={onApply}
-          className="
-          bg-brand-primary
-          hover:bg-brand-primary-hover
-          text-white
-          rounded-full
-          py-3
-          transition
-          "
-        >
-          Filter
-        </button>
+          <SidebarCheckbox
+            label="Window Cleaning"
+            checked={filters.serviceOffering?.includes("Window Cleaning") ?? false}
+            onChange={() =>
+              onChange({
+                ...filters,
+                serviceOffering: toggleArrayValue(
+                  filters.serviceOffering,
+                  "Window Cleaning"
+                )
+              })
+            }
+          />
 
-        <button
-          onClick={onClear}
-          className="
-          text-text-secondary
-          text-sm
-          "
-        >
-          Clear Filters
-        </button>
+          <SidebarCheckbox
+            label="Car Valet"
+            checked={filters.serviceOffering?.includes("Car Valet") ?? false}
+            onChange={() =>
+              onChange({
+                ...filters,
+                serviceOffering: toggleArrayValue(
+                  filters.serviceOffering,
+                  "Car Valet"
+                )
+              })
+            }
+          />
 
-      </div>
+        </SidebarSection>
 
-    </aside>
+      </Stack>
+
+      {/* BOTTOM ACTION */}
+      <Button
+        variant="contained"
+        onClick={onApply}
+        sx={{
+          borderRadius: "999px",
+          py: 1.5,
+          fontWeight: 600
+        }}
+      >
+        Filter
+      </Button>
+
+    </Box>
   )
 }
