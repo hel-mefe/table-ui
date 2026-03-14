@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
-* {
-  font-family: 'Poppins';
+@theme {
+  /* Brand */
+  --color-brand-primary: #2F80ED;
+  --color-brand-primary-hover: #1C6DD0;
+  --color-brand-primary-light: #E8F1FD;
+
+  /* Backgrounds */
+  --color-background-app: #F4F7F9;
+  --color-background-sidebar: #F2F4F7;
+  --color-background-card: #D1D5DB;
+
+  /* Text */
+  --color-text-primary: #2F3A4A;
+  --color-text-secondary: #687582;
+
+  /* Borders */
+  --color-border-default: #D0D5DD;
 }
