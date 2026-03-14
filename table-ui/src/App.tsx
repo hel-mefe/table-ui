@@ -1,13 +1,14 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Navbar from './components/Navbar'
-function App() {
+import Navbar from "./components/navbar"
+import { navigationItems } from "./features/navigation/navigation-items.config"
+import { mockProfile } from "./features/profile/profile.data"
 
+function App() {
   return (
-    <div className='flex w-screen h-screen bg-red-400'>
-      <Navbar />
+    <div className="flex w-screen h-screen">
+      <Navbar
+        items={navigationItems}
+        profile={mockProfile}
+      />
     </div>
   )
 }

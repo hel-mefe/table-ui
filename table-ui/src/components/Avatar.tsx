@@ -1,18 +1,21 @@
-import React from 'react'
-import vite from '../../public/vite.svg'
+import { Profile } from "../features/profile/profile.types"
 
-const Avatar = () => {
+interface AvatarProps {
+  profile: Profile
+}
+
+export default function Avatar({ profile }: AvatarProps) {
   return (
-    <div className='flex justify-center items-center gap-x-2'>
-        <div className='flex'>
-            <img src={vite} className='w-6 h-6 rounded-full' />
-        </div>
-        <div className='flex flex-col'>
-            <h3 className='text-sm'>Max Smith</h3>
-            <h3 className='text-xs'>London, UK</h3>
-        </div>
+    <div className="flex items-center gap-x-2">
+      <img
+        src={profile.avatarUrl}
+        className="w-6 h-6 rounded-full"
+      />
+
+      <div className="flex flex-col">
+        <span className="text-sm">{profile.name}</span>
+        <span className="text-xs">{profile.location}</span>
+      </div>
     </div>
   )
 }
-
-export default Avatar
