@@ -2,6 +2,9 @@ import { createTheme } from "@mui/material/styles"
 import { palette } from "./lib/theme.palette"
 
 export const theme = createTheme({
+  typography: {
+    fontFamily: "'Poppins', sans-serif",
+  },
   palette: {
     primary: {
       main: palette.primary.main,

@@ -17,6 +17,7 @@ import {
 import { GlerAdminPanel } from "./gler-admin-panel";
 import { SidebarCheckbox } from "./sidebar-checkbox";
 import { SidebarSection } from "./sidebar-section";
+import { SlideIn, FadeIn, StaggerContainer, StaggerItem } from "../motion";
 
 
 const datePickerStyle = {
@@ -105,116 +106,127 @@ export default function Sidebar() {
       <SidebarContainer>
         <Box sx={{display: 'flex', flexDirection: 'column', gap: '24px'}}>
           {/* Header Logo */}
-          <GlerAdminPanel />
+          <SlideIn direction="down" duration={0.5}>
+            <GlerAdminPanel />
+          </SlideIn>
 
           {/* User Management Badge */}
-          <Box sx={{ backgroundColor: "#DDE2E8", borderRadius: "8px", py: 1.2, px: 2, mb: 4 }}>
-            <Typography sx={{ fontWeight: 800, fontSize: "15px", color: "#000" }}>
-              User Management
-            </Typography>
-          </Box>
+          <FadeIn delay={0.2}>
+            <Box sx={{ backgroundColor: "#DDE2E8", borderRadius: "8px", py: 1.2, px: 2, mb: 4 }}>
+              <Typography sx={{ fontWeight: 800, fontSize: "15px", color: "#000" }}>
+                User Management
+              </Typography>
+            </Box>
+          </FadeIn>
 
-          {/* Postcode Section */}
-          <SidebarSection title="Postcode">
-            <SidebarTextField 
-              placeholder="ZIP" 
-              size="small" 
-              fullWidth 
-              value={localFilters.postcode}
-              onChange={(e) => updateFilter('postcode', e.target.value)}
-            />
-          </SidebarSection>
-
-          {/* Registration Status Section */}
-          <SidebarSection title="Registration Status">
-            <Stack>
-              <SidebarCheckbox 
-                label="Onboarded" 
-                checked={localFilters.status.includes('Onboarded')}
-                onChange={() => toggleArrayItem('status', 'Onboarded')}
-              />
-              <SidebarCheckbox 
-                label="Rejected" 
-                checked={localFilters.status.includes('Rejected')}
-                onChange={() => toggleArrayItem('status', 'Rejected')}
-              />
-            </Stack>
-          </SidebarSection>
-
-          {/* Date Registered Section */}
-          <SidebarSection title="Date Registered">
-            <Stack direction="row" spacing="10px">
-              <Box>
-                <DatePicker
-                  label="Date"
-                  value={localFilters.dateStart ? dayjs(localFilters.dateStart) : null}
-                  onChange={(val) => updateFilter('dateStart', val ? val.format('YYYY-MM-DD') : null)}
-                  slotProps={{
-                    textField: {
-                      placeholder: "Start",
-                      fullWidth: false,
-                      InputLabelProps: { shrink: true },
-                      sx: datePickerStyle,
-                    },
-                  }}
+          <StaggerContainer staggerDelay={0.1} delayChildren={0.3}>
+            <StaggerItem>
+              <SidebarSection title="Postcode">
+                <SidebarTextField 
+                  placeholder="ZIP" 
+                  size="small" 
+                  fullWidth 
+                  value={localFilters.postcode}
+                  onChange={(e) => updateFilter('postcode', e.target.value)}
                 />
-                <Typography sx={helperTextStyle}>MM/DD/YYYY</Typography>
-              </Box>
-              <Box>
-                <DatePicker
-                  label="Date"
-                  value={localFilters.dateEnd ? dayjs(localFilters.dateEnd) : null}
-                  onChange={(val) => updateFilter('dateEnd', val ? val.format('YYYY-MM-DD') : null)}
-                  slotProps={{
-                    textField: {
-                      placeholder: "End",
-                      fullWidth: false,
-                      InputLabelProps: { shrink: true },
-                      sx: datePickerStyle,
-                    },
-                  }}
-                />
-                <Typography sx={helperTextStyle}>MM/DD/YYYY</Typography>
-              </Box>
-            </Stack>
-          </SidebarSection>
+              </SidebarSection>
+            </StaggerItem>
 
-          {/* Vendor Type Section */}
-          <SidebarSection title="Vendor Type">
-            <Stack>
-              <SidebarCheckbox 
-                label="Independent" 
-                checked={localFilters.vendorType.includes('Independent')}
-                onChange={() => toggleArrayItem('vendorType', 'Independent')}
-              />
-              <SidebarCheckbox 
-                label="Company" 
-                checked={localFilters.vendorType.includes('Company')}
-                onChange={() => toggleArrayItem('vendorType', 'Company')}
-              />
-            </Stack>
-          </SidebarSection>
+            <StaggerItem>
+              <SidebarSection title="Registration Status">
+                <Stack>
+                  <SidebarCheckbox 
+                    label="Onboarded" 
+                    checked={localFilters.status.includes('Onboarded')}
+                    onChange={() => toggleArrayItem('status', 'Onboarded')}
+                  />
+                  <SidebarCheckbox 
+                    label="Rejected" 
+                    checked={localFilters.status.includes('Rejected')}
+                    onChange={() => toggleArrayItem('status', 'Rejected')}
+                  />
+                </Stack>
+              </SidebarSection>
+            </StaggerItem>
 
-          {/* Service Offering Section */}
-          <SidebarSection title="Service Offering">
-            <Stack>
-              <SidebarCheckbox 
-                label="Housekeeping" 
-                checked={localFilters.serviceOffering.includes('Housekeeping')}
-                onChange={() => toggleArrayItem('serviceOffering', 'Housekeeping')}
-              />
-              <SidebarCheckbox 
-                label="Window Cleaning" 
-                checked={localFilters.serviceOffering.includes('Window Cleaning')}
-                onChange={() => toggleArrayItem('serviceOffering', 'Window Cleaning')}
-              />
-              <SidebarCheckbox 
-                label="Car Valet" 
-                checked={localFilters.serviceOffering.includes('Car Valet')}
-                onChange={() => toggleArrayItem('serviceOffering', 'Car Valet')}
-              />
-            </Stack>
-          </SidebarSection>
+            <StaggerItem>
+              <SidebarSection title="Date Registered">
+                <Stack direction="row" spacing="10px">
+                  <Box>
+                    <DatePicker
+                      label="Date"
+                      value={localFilters.dateStart ? dayjs(localFilters.dateStart) : null}
+                      onChange={(val) => updateFilter('dateStart', val ? val.format('YYYY-MM-DD') : null)}
+                      slotProps={{
+                        textField: {
+                          placeholder: "Start",
+                          fullWidth: false,
+                          InputLabelProps: { shrink: true },
+                          sx: datePickerStyle,
+                        },
+                      }}
+                    />
+                    <Typography sx={helperTextStyle}>MM/DD/YYYY</Typography>
+                  </Box>
+                  <Box>
+                    <DatePicker
+                      label="Date"
+                      value={localFilters.dateEnd ? dayjs(localFilters.dateEnd) : null}
+                      onChange={(val) => updateFilter('dateEnd', val ? val.format('YYYY-MM-DD') : null)}
+                      slotProps={{
+                        textField: {
+                          placeholder: "End",
+                          fullWidth: false,
+                          InputLabelProps: { shrink: true },
+                          sx: datePickerStyle,
+                        },
+                      }}
+                    />
+                    <Typography sx={helperTextStyle}>MM/DD/YYYY</Typography>
+                  </Box>
+                </Stack>
+              </SidebarSection>
+            </StaggerItem>
+
+            <StaggerItem>
+              <SidebarSection title="Vendor Type">
+                <Stack>
+                  <SidebarCheckbox 
+                    label="Independent" 
+                    checked={localFilters.vendorType.includes('Independent')}
+                    onChange={() => toggleArrayItem('vendorType', 'Independent')}
+                  />
+                  <SidebarCheckbox 
+                    label="Company" 
+                    checked={localFilters.vendorType.includes('Company')}
+                    onChange={() => toggleArrayItem('vendorType', 'Company')}
+                  />
+                </Stack>
+              </SidebarSection>
+            </StaggerItem>
+
+            <StaggerItem>
+              <SidebarSection title="Service Offering">
+                <Stack>
+                  <SidebarCheckbox 
+                    label="Housekeeping" 
+                    checked={localFilters.serviceOffering.includes('Housekeeping')}
+                    onChange={() => toggleArrayItem('serviceOffering', 'Housekeeping')}
+                  />
+                  <SidebarCheckbox 
+                    label="Window Cleaning" 
+                    checked={localFilters.serviceOffering.includes('Window Cleaning')}
+                    onChange={() => toggleArrayItem('serviceOffering', 'Window Cleaning')}
+                  />
+                  <SidebarCheckbox 
+                    label="Car Valet" 
+                    checked={localFilters.serviceOffering.includes('Car Valet')}
+                    onChange={() => toggleArrayItem('serviceOffering', 'Car Valet')}
+                  />
+                </Stack>
+              </SidebarSection>
+            </StaggerItem>
+          </StaggerContainer>
         </Box>
 
         {/* Bottom Filter Buttons */}

@@ -19,7 +19,7 @@ export interface ServiceProvider {
   postcode: string
 
   vendorType: VendorType
-  serviceOffering: ServiceOffering
+  serviceOffering: ServiceOffering[]
 
   signupDate: string
   status?: RegistrationStatus

@@ -7,7 +7,7 @@ const designRows: ServiceProvider[] = [
     phoneNumber: "+44 20 7946 0958",
     postcode: "SW1A 1AA",
     vendorType: "Independent",
-    serviceOffering: "Housekeeping",
+    serviceOffering: ["Housekeeping", "Car Valet"],
     signupDate: "2024-05-01",
     status: undefined,
   },
@@ -17,7 +17,7 @@ const designRows: ServiceProvider[] = [
     phoneNumber: "+44 20 7946 0958",
     postcode: "M1 1AE",
     vendorType: "Company",
-    serviceOffering: "Window Cleaning",
+    serviceOffering: ["Housekeeping", "Car Valet"],
     signupDate: "2025-03-21",
     status: "Onboarded",
   },
@@ -27,7 +27,7 @@ const designRows: ServiceProvider[] = [
     phoneNumber: "+44 20 7946 0958",
     postcode: "OX1 2JD",
     vendorType: "Independent",
-    serviceOffering: "Housekeeping",
+    serviceOffering: ["Housekeeping", "Car Valet"],
     signupDate: "2023-10-11",
     status: "Rejected",
   },
@@ -69,7 +69,7 @@ export function generateServiceProviders(
     postcode: generatePostcode(),
 
     vendorType: randomItem(vendorTypes),
-    serviceOffering: randomItem(services),
+    serviceOffering: ["Housekeeping", "Car Valet"],
 
     signupDate: generateDate(),
     status: randomItem(statuses)

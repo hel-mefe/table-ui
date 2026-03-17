@@ -81,7 +81,7 @@ export function WaitlistTable({ rows, onEdit }: WaitlistTableProps) {
     }),
     columnHelper.accessor("serviceOffering", {
       header: "Service Offering",
-      cell: (info) => info.getValue(),
+      cell: (info) => info.getValue().join(", "),
     }),
     columnHelper.accessor("signupDate", {
       header: "Signup Date",

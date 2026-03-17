@@ -6,6 +6,7 @@ import { useWaitlistStore } from "../../stores/waitlist.store"
 import type { ServiceProvider } from "../service-providers/service-provider.types"
 import { UserDetailsModal } from "../../components/modals/user-details-modal"
 import { ViewTitle } from "../../components/ui/typography"
+import { FadeIn, SlideIn } from "../../components/motion"
 
 export function WaitlistView() {
   const [activeTab, setActiveTab] = useState<WaitlistTab>("service-providers")
@@ -31,7 +32,7 @@ export function WaitlistView() {
       result = result.filter(r => filters.vendorType.includes(r.vendorType))
     }
     if (filters.serviceOffering && filters.serviceOffering.length > 0) {
-      result = result.filter(r => filters.serviceOffering.includes(r.serviceOffering))
+      result = result.filter(r => r.serviceOffering.some(s => filters.serviceOffering.includes(s)))
     }
     if (filters.status && filters.status.length > 0) {
       result = result.filter(r => r.status && filters.status.includes(r.status))
@@ -54,7 +55,7 @@ export function WaitlistView() {
           r.phoneNumber.toLowerCase().includes(q) ||
           r.postcode.toLowerCase().includes(q) ||
           r.vendorType.toLowerCase().includes(q) ||
-          r.serviceOffering.toLowerCase().includes(q) ||
+          r.serviceOffering.some(s => s.toLowerCase().includes(q)) ||
           (r.status && r.status.toLowerCase().includes(q))
       )
     }
@@ -80,22 +81,26 @@ export function WaitlistView() {
   return (
     <Box sx={{ p: 3, height: "100%", display: "flex", flexDirection: "column" }}>
       <Stack direction='column' gap={"24px"}>
-        <ViewTitle>Waitlist</ViewTitle>
+        <SlideIn direction="down" duration={0.45}>
+          <ViewTitle>Waitlist</ViewTitle>
+        </SlideIn>
 
-        <WaitlistToolbar
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-          searchValue={search}
-          onSearchChange={setSearch}
-        />
+        <FadeIn delay={0.15}>
+          <WaitlistToolbar
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            searchValue={search}
+            onSearchChange={setSearch}
+          />
+        </FadeIn>
       </Stack>
 
-      <Box sx={{ flex: 1, minHeight: 0, mt: 3 }}>
+      <FadeIn delay={0.25} style={{ flex: 1, minHeight: 0, marginTop: 24, display: "flex", flexDirection: "column" }}>
         <WaitlistTable
           rows={filteredRows}
           onEdit={handleEdit}
         />
-      </Box>
+      </FadeIn>
 
       <UserDetailsModal
         open={!!selectedProvider}

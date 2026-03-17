@@ -6,6 +6,7 @@ import {
 import NavbarItem from "./navbar-item"
 import NavbarActions from "./navbar-actions"
 import { ResponsiveNavbarToolbar } from "../ui/navbar"
+import { StaggerContainer, StaggerItem, FadeIn } from "../motion"
 
 import { NavbarProps } from "./navbar.types"
 
@@ -20,28 +21,32 @@ export default function Navbar({ items, profile }: NavbarProps) {
       }}
     >
       <ResponsiveNavbarToolbar disableGutters>
-        <Box
-          sx={{
-            display: { xs: "none", md: "flex" },
+        <StaggerContainer
+          style={{
+            display: "flex",
             alignItems: "center",
             gap: "8px",
             height: "40px",
-            flexWrap: "wrap"
+            flexWrap: "wrap",
           }}
         >
           {items.map((item) => (
-            <NavbarItem key={item.path} item={item} />
+            <StaggerItem key={item.path}>
+              <NavbarItem item={item} />
+            </StaggerItem>
           ))}
-        </Box>
+        </StaggerContainer>
 
-        <Box
-          sx={{
-            mt: { xs: 0.5, md: 0 },
-            alignSelf: { xs: "flex-end", md: "center" },
-          }}
-        >
-          <NavbarActions profile={profile} />
-        </Box>
+        <FadeIn delay={0.3}>
+          <Box
+            sx={{
+              mt: { xs: 0.5, md: 0 },
+              alignSelf: { xs: "flex-end", md: "center" },
+            }}
+          >
+            <NavbarActions profile={profile} />
+          </Box>
+        </FadeIn>
 
       </ResponsiveNavbarToolbar>
     </AppBar>
