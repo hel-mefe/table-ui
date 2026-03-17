@@ -1,257 +1,311 @@
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
-  TextField,
   Button,
   Stack,
-  Paper
-} from "@mui/material"
+  FormControlLabel,
+} from "@mui/material";
+import dayjs from 'dayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { useWaitlistStore, WaitlistFilters } from '../../stores/waitlist.store';
+import {
+  SidebarContainer,
+  SidebarTextField,
+  SidebarSectionContainer,
+  SidebarSectionTitle,
+} from "../ui/sidebar";
+import { AppCheckbox } from "../ui/checkbox";
 
-import SidebarSection from "./sidebar-section"
-import SidebarCheckbox from "./sidebar-checkbox"
-import SidebarDateInput from "./sidebar-date-input"
+const datePickerStyle = {
+  width: '124px',
+  height: '56px',
+  '& .MuiOutlinedInput-root': {
+    height: '100%',
+    borderRadius: '4px',
+    backgroundColor: '#F4F7F9',
+    '& fieldset': {
+      borderWidth: '3px',
+      borderColor: '#1A78F2',
+    },
+    '&:hover fieldset': { borderColor: '#1A78F2', borderWidth: '3px' },
+    '&.Mui-focused fieldset': { borderColor: '#1A78F2', borderWidth: '3px' },
+  },
+  '& .MuiInputLabel-root': {
+    color: '#1A78F2',
+    fontWeight: 700,
+    fontSize: '12px',
+    transform: 'translate(12px, -9px) scale(1)',
+  },
+  '& .MuiInputBase-input': {
+    padding: '10px 12px',
+    fontSize: '13px',
+    fontWeight: 500,
+  },
+};
 
-import { SidebarProps } from "./sidebar.types"
+const helperTextStyle = {
+  fontSize: '10px',
+  color: '#A0AEC0',
+  mt: '6px',
+  width: '124px',
+  textAlign: 'center',
+};
 
-export default function Sidebar({
-  filters,
-  onChange,
-  onApply,
-  onClear
-}: SidebarProps) {
+// --- Reusable Sub-components ---
 
-  const toggleArrayValue = (
-    array: string[] | undefined,
-    value: string
-  ) => {
-    if (!array) return [value]
+const CustomCheckbox = ({ 
+  label, 
+  checked, 
+  onChange 
+}: { 
+  label: string; 
+  checked: boolean; 
+  onChange: (checked: boolean) => void 
+}) => (
+  <FormControlLabel
+    control={
+      <AppCheckbox
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+      />
+    }
+    label={
+      <Typography sx={{ fontSize: "14px", color: "#324054", fontWeight: 500 }}>
+        {label}
+      </Typography>
+    }
+    sx={{ margin: 0 }}
+  />
+);
 
-    return array.includes(value)
-      ? array.filter((v) => v !== value)
-      : [...array, value]
-  }
+interface SidebarSectionProps {
+  title: string;
+  children: React.ReactNode;
+}
+
+const SidebarSection = ({ title, children }: SidebarSectionProps) => (
+  <SidebarSectionContainer spacing="10px">
+    <SidebarSectionTitle>
+      {title}
+    </SidebarSectionTitle>
+    <Box>{children}</Box>
+  </SidebarSectionContainer>
+);
+
+// --- Main Component ---
+
+export default function Sidebar() {
+  const storeFilters = useWaitlistStore((s) => s.filters);
+  const setStoreFilters = useWaitlistStore((s) => s.setFilters);
+  const clearStoreFilters = useWaitlistStore((s) => s.clearFilters);
+  const showToast = useWaitlistStore((s) => s.showToast);
+
+  const [localFilters, setLocalFilters] = useState<WaitlistFilters>(storeFilters);
+
+  useEffect(() => {
+    setLocalFilters(storeFilters);
+  }, [storeFilters]);
+
+  const updateFilter = (key: keyof WaitlistFilters, value: any) => {
+    setLocalFilters(prev => ({ ...prev, [key]: value }));
+  };
+
+  const toggleArrayItem = (key: 'status' | 'vendorType' | 'serviceOffering', item: string) => {
+    setLocalFilters(prev => {
+      const arr = prev[key];
+      if (arr.includes(item)) {
+        return { ...prev, [key]: arr.filter(i => i !== item) };
+      }
+      return { ...prev, [key]: [...arr, item] };
+    });
+  };
+
+  const handleApply = () => {
+    setStoreFilters(localFilters);
+    showToast("Filters successfully applied!");
+  };
+
+  const handleClear = () => {
+    clearStoreFilters();
+    setLocalFilters({ // Clear locally immediately
+      postcode: '',
+      status: [],
+      dateStart: null,
+      dateEnd: null,
+      vendorType: [],
+      serviceOffering: [],
+    });
+    showToast("Filters cleared.");
+  };
 
   return (
-    <Box
-      component="aside"
-      sx={{
-        width: 288,
-        height: "100%",
-        bgcolor: "#F4F7F9",
-        p: "16px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between"
-      }}
-    >
-
-      {/* TOP CONTENT */}
-      <Stack spacing={3}>
-
-        {/* LOGO */}
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Typography
-            sx={{
-              color: "#1A78F2",
-              fontWeight: 700,
-              fontSize: 18
-            }}
-          >
-            gler
-          </Typography>
-
-          <Typography sx={{ fontSize: 14 }}>
-            Admin Panel
-          </Typography>
-        </Stack>
-
-        {/* USER MANAGEMENT PILL */}
-        <Paper
-          elevation={0}
-          sx={{
-            bgcolor: "#D3D8DD",
-            px: 2,
-            py: 1,
-            borderRadius: "8px"
-          }}
-        >
-          <Typography fontWeight={600}>
-            User Management
-          </Typography>
-        </Paper>
-
-        {/* POSTCODE */}
-        <SidebarSection title="Postcode">
-          <TextField
-            size="small"
-            placeholder="ZIP"
-            value={filters.postcode ?? ""}
-            onChange={(e) =>
-              onChange({
-                ...filters,
-                postcode: e.target.value
-              })
-            }
-            sx={{
-              width: 130,
-              bgcolor: "white"
-            }}
-          />
-        </SidebarSection>
-
-        {/* REGISTRATION STATUS */}
-        <SidebarSection title="Registration Status">
-
-          <SidebarCheckbox
-            label="Onboarded"
-            checked={filters.status?.includes("Onboarded") ?? false}
-            onChange={() =>
-              onChange({
-                ...filters,
-                status: toggleArrayValue(filters.status, "Onboarded")
-              })
-            }
-          />
-
-          <SidebarCheckbox
-            label="Rejected"
-            checked={filters.status?.includes("Rejected") ?? false}
-            onChange={() =>
-              onChange({
-                ...filters,
-                status: toggleArrayValue(filters.status, "Rejected")
-              })
-            }
-          />
-
-        </SidebarSection>
-
-        {/* DATE REGISTERED */}
-        <SidebarSection title="Date Registered">
-
-          <Stack direction="row" spacing={1}>
-
-            <SidebarDateInput
-              label="Start"
-              value={filters.startDate}
-              onChange={(value) =>
-                onChange({
-                  ...filters,
-                  startDate: value
-                })
-              }
-            />
-
-            <SidebarDateInput
-              label="End"
-              value={filters.endDate}
-              onChange={(value) =>
-                onChange({
-                  ...filters,
-                  endDate: value
-                })
-              }
-            />
-
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <SidebarContainer>
+        <Box>
+          {/* Header Logo */}
+          <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 4 }}>
+            <Typography sx={{ color: "#1A78F2", fontWeight: 800, fontSize: "24px" }}>
+              gler<Box component="span" sx={{ color: "#FFD700", ml: 0.2 }}>✦</Box>
+            </Typography>
+            <Typography sx={{ color: "#1A78F2", fontSize: "16px", fontWeight: 600 }}>
+              Admin Panel
+            </Typography>
           </Stack>
 
-        </SidebarSection>
+          {/* User Management Badge */}
+          <Box sx={{ backgroundColor: "#DDE2E8", borderRadius: "8px", py: 1.2, px: 2, mb: 4 }}>
+            <Typography sx={{ fontWeight: 800, fontSize: "15px", color: "#000" }}>
+              User Management
+            </Typography>
+          </Box>
 
-        {/* VENDOR TYPE */}
-        <SidebarSection title="Vendor Type">
+          {/* Postcode Section */}
+          <SidebarSection title="Postcode">
+            <SidebarTextField 
+              placeholder="ZIP" 
+              size="small" 
+              fullWidth 
+              value={localFilters.postcode}
+              onChange={(e) => updateFilter('postcode', e.target.value)}
+            />
+          </SidebarSection>
 
-          <SidebarCheckbox
-            label="Independent"
-            checked={filters.vendorType?.includes("Independent") ?? false}
-            onChange={() =>
-              onChange({
-                ...filters,
-                vendorType: toggleArrayValue(
-                  filters.vendorType,
-                  "Independent"
-                )
-              })
-            }
-          />
+          {/* Registration Status Section */}
+          <SidebarSection title="Registration Status">
+            <Stack>
+              <CustomCheckbox 
+                label="Onboarded" 
+                checked={localFilters.status.includes('Onboarded')}
+                onChange={() => toggleArrayItem('status', 'Onboarded')}
+              />
+              <CustomCheckbox 
+                label="Rejected" 
+                checked={localFilters.status.includes('Rejected')}
+                onChange={() => toggleArrayItem('status', 'Rejected')}
+              />
+            </Stack>
+          </SidebarSection>
 
-          <SidebarCheckbox
-            label="Company"
-            checked={filters.vendorType?.includes("Company") ?? false}
-            onChange={() =>
-              onChange({
-                ...filters,
-                vendorType: toggleArrayValue(
-                  filters.vendorType,
-                  "Company"
-                )
-              })
-            }
-          />
+          {/* Date Registered Section */}
+          <SidebarSection title="Date Registered">
+            <Stack direction="row" spacing="10px">
+              <Box>
+                <DatePicker
+                  label="Date"
+                  value={localFilters.dateStart ? dayjs(localFilters.dateStart) : null}
+                  onChange={(val) => updateFilter('dateStart', val ? val.format('YYYY-MM-DD') : null)}
+                  slotProps={{
+                    textField: {
+                      placeholder: "Start",
+                      fullWidth: false,
+                      InputLabelProps: { shrink: true },
+                      sx: datePickerStyle,
+                    },
+                  }}
+                />
+                <Typography sx={helperTextStyle}>MM/DD/YYYY</Typography>
+              </Box>
+              <Box>
+                <DatePicker
+                  label="Date"
+                  value={localFilters.dateEnd ? dayjs(localFilters.dateEnd) : null}
+                  onChange={(val) => updateFilter('dateEnd', val ? val.format('YYYY-MM-DD') : null)}
+                  slotProps={{
+                    textField: {
+                      placeholder: "End",
+                      fullWidth: false,
+                      InputLabelProps: { shrink: true },
+                      sx: datePickerStyle,
+                    },
+                  }}
+                />
+                <Typography sx={helperTextStyle}>MM/DD/YYYY</Typography>
+              </Box>
+            </Stack>
+          </SidebarSection>
 
-        </SidebarSection>
+          {/* Vendor Type Section */}
+          <SidebarSection title="Vendor Type">
+            <Stack>
+              <CustomCheckbox 
+                label="Independent" 
+                checked={localFilters.vendorType.includes('Independent')}
+                onChange={() => toggleArrayItem('vendorType', 'Independent')}
+              />
+              <CustomCheckbox 
+                label="Company" 
+                checked={localFilters.vendorType.includes('Company')}
+                onChange={() => toggleArrayItem('vendorType', 'Company')}
+              />
+            </Stack>
+          </SidebarSection>
 
-        {/* SERVICE OFFERING */}
-        <SidebarSection title="Service Offering">
+          {/* Service Offering Section */}
+          <SidebarSection title="Service Offering">
+            <Stack>
+              <CustomCheckbox 
+                label="Housekeeping" 
+                checked={localFilters.serviceOffering.includes('Housekeeping')}
+                onChange={() => toggleArrayItem('serviceOffering', 'Housekeeping')}
+              />
+              <CustomCheckbox 
+                label="Window Cleaning" 
+                checked={localFilters.serviceOffering.includes('Window Cleaning')}
+                onChange={() => toggleArrayItem('serviceOffering', 'Window Cleaning')}
+              />
+              <CustomCheckbox 
+                label="Car Valet" 
+                checked={localFilters.serviceOffering.includes('Car Valet')}
+                onChange={() => toggleArrayItem('serviceOffering', 'Car Valet')}
+              />
+            </Stack>
+          </SidebarSection>
+        </Box>
 
-          <SidebarCheckbox
-            label="Housekeeping"
-            checked={filters.serviceOffering?.includes("Housekeeping") ?? false}
-            onChange={() =>
-              onChange({
-                ...filters,
-                serviceOffering: toggleArrayValue(
-                  filters.serviceOffering,
-                  "Housekeeping"
-                )
-              })
-            }
-          />
-
-          <SidebarCheckbox
-            label="Window Cleaning"
-            checked={filters.serviceOffering?.includes("Window Cleaning") ?? false}
-            onChange={() =>
-              onChange({
-                ...filters,
-                serviceOffering: toggleArrayValue(
-                  filters.serviceOffering,
-                  "Window Cleaning"
-                )
-              })
-            }
-          />
-
-          <SidebarCheckbox
-            label="Car Valet"
-            checked={filters.serviceOffering?.includes("Car Valet") ?? false}
-            onChange={() =>
-              onChange({
-                ...filters,
-                serviceOffering: toggleArrayValue(
-                  filters.serviceOffering,
-                  "Car Valet"
-                )
-              })
-            }
-          />
-
-        </SidebarSection>
-
-      </Stack>
-
-      {/* BOTTOM ACTION */}
-      <Button
-        variant="contained"
-        onClick={onApply}
-        sx={{
-          borderRadius: "999px",
-          py: 1.5,
-          fontWeight: 600
-        }}
-      >
-        Filter
-      </Button>
-
-    </Box>
-  )
+        {/* Bottom Filter Buttons */}
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, pb: 2, mt: 4 }}>
+          <Stack direction="row" spacing={2} justifyContent="center">
+            <Button
+              variant="outlined"
+              onClick={handleClear}
+              sx={{
+                color: "#1A78F2",
+                borderColor: "#1A78F2",
+                textTransform: "none",
+                borderRadius: "100px",
+                fontSize: "16px",
+                fontWeight: 600,
+                flex: 1,
+                py: 1,
+                "&:hover": { backgroundColor: "rgba(26, 120, 242, 0.1)", borderColor: "#1A78F2" },
+              }}
+            >
+              Clear
+            </Button>
+            <Button
+              variant="contained"
+              onClick={handleApply}
+              sx={{
+                backgroundColor: "#1A78F2",
+                color: "#FFF",
+                textTransform: "none",
+                borderRadius: "100px",
+                fontSize: "16px",
+                fontWeight: 600,
+                flex: 2,
+                py: 1,
+                boxShadow: "0px 8px 20px rgba(26, 120, 242, 0.3)",
+                "&:hover": { backgroundColor: "#1565C0" },
+              }}
+            >
+              Filter
+            </Button>
+          </Stack>
+        </Box>
+      </SidebarContainer>
+    </LocalizationProvider>
+  );
 }

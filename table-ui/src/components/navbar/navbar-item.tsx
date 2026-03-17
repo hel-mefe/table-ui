@@ -6,6 +6,8 @@ interface NavbarItemProps {
 }
 
 export default function NavbarItem({ item }: NavbarItemProps) {
+  const isActive = item.label === "Human Resources"
+
   return (
     <Box
       component="a"
@@ -17,7 +19,7 @@ export default function NavbarItem({ item }: NavbarItemProps) {
         px: "12px",
         cursor: "pointer",
         textDecoration: "none",
-        color: "text.primary"
+        color: isActive ? "#1A78F2" : "text.primary"
       }}
     >
       <Typography

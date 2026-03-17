@@ -16,7 +16,7 @@ export default function NavbarActions({ profile }: NavbarActionsProps) {
         display: "flex",
         alignItems: "center",
         height: "40px",
-        gap: "40px"
+        gap: { xs: 2, md: 5 }
       }}
     >
 

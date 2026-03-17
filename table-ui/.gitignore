@@ -1,4 +1,5 @@
-# Logs
+*.pdf
+tanstack-table-playground
 logs
 *.log
 npm-debug.log*

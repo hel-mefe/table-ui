@@ -1,11 +1,11 @@
 import {
   AppBar,
-  Toolbar,
   Box
 } from "@mui/material"
 
 import NavbarItem from "./navbar-item"
 import NavbarActions from "./navbar-actions"
+import { ResponsiveNavbarToolbar } from "../ui/navbar"
 
 import { NavbarProps } from "./navbar.types"
 
@@ -19,23 +19,14 @@ export default function Navbar({ items, profile }: NavbarProps) {
         color: "black"
       }}
     >
-      <Toolbar
-        disableGutters
-        sx={{
-          height: 56,
-          minHeight: 56,
-          px: "80px",
-          py: "8px",
-          display: "flex",
-          justifyContent: "space-between"
-        }}
-      >
+      <ResponsiveNavbarToolbar disableGutters>
         <Box
           sx={{
-            display: "flex",
+            display: { xs: "none", md: "flex" },
             alignItems: "center",
             gap: "8px",
-            height: "40px"
+            height: "40px",
+            flexWrap: "wrap"
           }}
         >
           {items.map((item) => (
@@ -43,9 +34,16 @@ export default function Navbar({ items, profile }: NavbarProps) {
           ))}
         </Box>
 
-        <NavbarActions profile={profile} />
+        <Box
+          sx={{
+            mt: { xs: 0.5, md: 0 },
+            alignSelf: { xs: "flex-end", md: "center" },
+          }}
+        >
+          <NavbarActions profile={profile} />
+        </Box>
 
-      </Toolbar>
+      </ResponsiveNavbarToolbar>
     </AppBar>
   )
 }

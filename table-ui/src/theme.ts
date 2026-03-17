@@ -1,32 +1,85 @@
 import { createTheme } from "@mui/material/styles"
+import { palette } from "./lib/theme.palette"
 
 export const theme = createTheme({
   palette: {
     primary: {
-      main: "#2F80ED"
+      main: palette.primary.main,
+      dark: palette.primary.hover,
+      light: palette.primary.light,
     },
-
     background: {
-      default: "#F4F7F9"
+      default: palette.background.app,
+      paper: "#FFFFFF",
     },
-
     text: {
-      primary: "#2F3A4A",
-      secondary: "#687582"
-    }
+      primary: palette.text.primary,
+      secondary: palette.text.secondary,
+    },
+    divider: palette.border.default,
   },
-
   shape: {
-    borderRadius: 8
+    borderRadius: 8,
   },
-components: {
-  MuiAppBar: {
-    styleOverrides: {
-      root: {
-        backgroundColor: "#F4F7F9",
-        color: "#000"
-      }
-    }
-  }
-},
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: "none",
+          fontWeight: 600,
+        },
+        contained: {
+          "&:hover": {
+            backgroundColor: palette.primary.hover,
+          },
+        },
+      },
+    },
+    MuiTextField: {
+      defaultProps: {
+        variant: "outlined",
+        size: "small",
+      },
+      styleOverrides: {
+        root: {
+          "& .MuiOutlinedInput-root": {
+            backgroundColor: "#FFFFFF",
+            borderRadius: 1,
+            "& fieldset": {
+              borderColor: palette.border.default,
+            },
+          },
+        },
+      },
+    },
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          color: palette.border.default,
+          "&.Mui-checked": {
+            color: palette.primary.main,
+          },
+        },
+      },
+    },
+    MuiTableHead: {
+      styleOverrides: {
+        root: {
+          backgroundColor: palette.background.sidebar,
+          "& .MuiTableCell-head": {
+            fontWeight: 600,
+            color: palette.text.primary,
+            borderBottom: `1px solid ${palette.border.default}`,
+          },
+        },
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          borderBottom: `1px solid ${palette.border.default}`,
+        },
+      },
+    },
+  },
 })

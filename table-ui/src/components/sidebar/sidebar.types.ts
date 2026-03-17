@@ -1,15 +1,8 @@
-export interface SidebarFilters {
-  postcode?: string
-  status?: string[]
-  vendorType?: string[]
-  serviceOffering?: string[]
-  startDate?: string
-  endDate?: string
-}
+import type { ServiceProviderFilters } from "../../features/service-providers/service-provider-filters.types"
 
 export interface SidebarProps {
-  filters: SidebarFilters
-  onChange: (filters: SidebarFilters) => void
+  filters: ServiceProviderFilters
+  onChange: (filters: ServiceProviderFilters) => void
   onApply: () => void
-  onClear: () => void
+  onClear?: () => void
 }

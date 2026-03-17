@@ -1,0 +1,89 @@
+{
+  "title": "Waitlist",
+  "layout": {
+    "paddingY": 40,
+    "paddingX": 24,
+    "gapBetweenSidebarAndTable": 16,
+    "contentPadding": 24
+  },
+  "tabs": [
+    { "id": "service-providers", "label": "Service Providers", "background": "#C8D5D9", "border": "1px solid #3A3A3A" },
+    { "id": "customers", "label": "Customers", "background": "none", "border": "1px solid #807664" }
+  ],
+  "tabsLayout": {
+    "gapBetweenButtons": 16
+  },
+  "search": {
+    "placeholder": "Search User",
+    "searchFields": ["email", "phoneNumber", "postcode"],
+    "searchBox": {
+      "width": 232,
+      "height": 32,
+      "padding": { "top": 4, "right": 12, "bottom": 4, "left": 12 },
+      "gap": 10,
+      "flow": "horizontal"
+    }
+  },
+  "table": {
+    "rowsPerPage": 10,
+    "columns": [
+      { "id": "email", "label": "Email", "minWidth": 180 },
+      { "id": "phoneNumber", "label": "Phone Number", "minWidth": 140 },
+      { "id": "postcode", "label": "Postcode", "minWidth": 100 },
+      { "id": "vendorType", "label": "Vendor Type", "minWidth": 120 },
+      { "id": "serviceOffering", "label": "Service Offering", "minWidth": 140 },
+      { "id": "signupDate", "label": "Signup Date", "minWidth": 110, "displayFormat": "DD/MM/YYYY" },
+      { "id": "status", "label": "Status", "minWidth": 100, "emptyDisplay": "–" },
+      { "id": "actions", "label": "Actions", "minWidth": 80 }
+    ],
+    "rowSelection": true,
+    "actions": ["edit"]
+  },
+  "pagination": {
+    "position": "left",
+    "shape": "rounded",
+    "showFirstButton": true,
+    "showLastButton": true
+  },
+  "sidebarFilters": {
+    "sections": [
+      {
+        "id": "postcode",
+        "title": "Postcode",
+        "type": "text",
+        "placeholder": "ZIP"
+      },
+      {
+        "id": "registrationStatus",
+        "title": "Registration Status",
+        "type": "checkbox",
+        "options": ["Onboarded", "Rejected"]
+      },
+      {
+        "id": "dateRegistered",
+        "title": "Date Registered",
+        "type": "dateRange",
+        "labels": ["Start", "End"],
+        "format": "MM/DD/YYYY"
+      },
+      {
+        "id": "vendorType",
+        "title": "Vendor Type",
+        "type": "checkbox",
+        "options": ["Independent", "Company"]
+      },
+      {
+        "id": "serviceOffering",
+        "title": "Service Offering",
+        "type": "checkbox",
+        "options": ["Housekeeping", "Window Cleaning", "Car Valet"]
+      }
+    ],
+    "submitButtonLabel": "Filter"
+  },
+  "dataTypes": {
+    "RegistrationStatus": ["Onboarded", "Rejected"],
+    "VendorType": ["Independent", "Company"],
+    "ServiceOffering": ["Housekeeping", "Window Cleaning", "Car Valet"]
+  }
+}

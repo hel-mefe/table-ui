@@ -1,29 +1,31 @@
-import { Stack, Typography } from "@mui/material"
+// sidebar-section.tsx
+import { Stack, Typography } from "@mui/material";
 
-interface SidebarSectionProps {
-  title: string
-  children: React.ReactNode
+export interface SidebarSectionProps {
+  title: string;
+  children: React.ReactNode;
 }
 
-export default function SidebarSection({
-  title,
-  children
-}: SidebarSectionProps) {
+export default function SidebarSection({ title, children }: SidebarSectionProps) {
   return (
-    <Stack spacing={1.5}>
+    <Stack spacing={"4px"}> {/* Matches the gap logic from previous specs */}
       <Typography
         sx={{
-          fontSize: 14,
-          fontWeight: 600,
-          color: "#2F3A4A"
+          fontFamily: "'Poppins', sans-serif",
+          fontWeight: 700,
+          fontSize: "16px",
+          lineHeight: "20px",
+          color: "#324054", // Primary Gray from Figma
+          letterSpacing: "0%",
+          width: "136px", // Specified fixed width
+          height: "38px", // Specified fixed height
         }}
       >
         {title}
       </Typography>
-
       <Stack spacing={1}>
         {children}
       </Stack>
     </Stack>
-  )
+  );
 }

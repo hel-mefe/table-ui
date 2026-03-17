@@ -1,0 +1,95 @@
+©  fyaora  LABS  2025  -  all  rights  reserved   
+Frontend  Developer  Assignment   
+Objective: 
+Develop
+ 
+the
+ 
+Waitlist
+ 
+→
+ 
+Service
+ 
+Providers
+ 
+page
+ 
+based
+ 
+on
+ 
+the
+ 
+provided
+ 
+Figma
+ 
+design
+.
+ 
+________ 
+Requirements  
+1.  Table  
+Columns:  
+●  Email  
+ ●  Phone  Number  
+ ●  Postcode  
+ ●  Vendor  Type  
+ ●  Service  Offering  
+ ●  Signup  Date  
+ ●  Status  
+ ●  Actions  
+ 
+ 
+________  
+Functionality:  
+●  Display  10  rows  per  page  with  functional  pagination  (minimum  5  pages).  
+ ●  Sorting  and  filtering  must  work  across  all  columns.  
+ ●  Each  row  must  include  a  checkbox  for  selection,  with  a  working  “Select  All”  option.  
+ ●  Action  icons  (e.g.,  Edit)  should  open  a  modal  or  perform  a  dummy  redirect .  
+ 
+     
+©  fyaora  LABS  2025  -  all  rights  reserved     
+________
+ 
+2.  Sidebar  Filters  
+Filter  Fields:  
+●  Postcode:  UK  ZIP  text  input  
+ ●  Registration  Status:  Onboarded  /  Rejected  
+ ●  Date  Registered:  Start  +  End  date  (MM/DD/YYYY)  
+ ●  Vendor  Type:  Independent  /  Company  
+ ●  Service  Offering:  Housekeeping  /  Window  Cleaning  /  Car  Valet  
+ 
+Buttons:  
+●  Apply  Filters:  Applies  all  selected  options  
+ ●  Clear  Filters:  Resets  all  filter  values  
+ 
+________  
+3.  Main  Content  
+Search  Bar:  
+●  Positioned  in  the  top-right  corner  above  the  table.  
+ ●  Filters  results  live  or  when  pressing  Enter .  
+ ●  Should  handle  partial  inputs  and  trim  whitespace .  
+ 
+Table  Data:  
+●  Displays  filtered  list  of  service  providers.  
+ ●  Includes  all  columns  and  row-selection  functionality  described  above.  
+ ●  Status  column:  Displays  Onboarded  or  Rejected .  
+ ●  Actions  column:  Contains  icons  (e.g.,  edit)  triggering  a  modal  or  dummy  redirect.  
+ 
+ 
+©  fyaora  LABS  2025  -  all  rights  reserved    
+________
+ 
+4.  Responsiveness  
+●  The  sidebar  should  collapse  or  stack  on  smaller  screens.  
+ ●  The  table  should  scroll  horizontally  on  smaller  devices.  
+ 
+________  
+5.  Bonus  (Optional  Enhancements)  
+●  Add  a  styled  success  message  (toast/alert)  after  applying  filters  or  performing  an  action.  
+ ●  Implement  hover  effects  and  smooth  transitions  for  interactive  elements.  
+ 
+ 
+ 

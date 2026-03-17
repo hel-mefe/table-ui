@@ -22,5 +22,5 @@ export interface ServiceProvider {
   serviceOffering: ServiceOffering
 
   signupDate: string
-  status: RegistrationStatus
+  status?: RegistrationStatus
 }

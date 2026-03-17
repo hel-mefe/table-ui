@@ -1,7 +1,4 @@
-import {
-  Checkbox,
-  FormControlLabel
-} from "@mui/material"
+import { SidebarCheckboxLabel, AppCheckbox } from "../ui/checkbox"
 
 interface SidebarCheckboxProps {
   label: string
@@ -15,21 +12,11 @@ export default function SidebarCheckbox({
   onChange
 }: SidebarCheckboxProps) {
   return (
-    <FormControlLabel
+    <SidebarCheckboxLabel
       control={
-        <Checkbox
-          size="small"
-          checked={checked}
-          onChange={onChange}
-        />
+        <AppCheckbox checked={checked} onChange={onChange} />
       }
       label={label}
-      sx={{
-        m: 0,
-        "& .MuiTypography-root": {
-          fontSize: 14
-        }
-      }}
     />
   )
 }

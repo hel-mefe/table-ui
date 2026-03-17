@@ -1,5 +1,38 @@
 import { ServiceProvider } from "./service-provider.types"
 
+const designRows: ServiceProvider[] = [
+  {
+    id: "sp-design-1",
+    email: "jonesadam@gmail.com",
+    phoneNumber: "+44 20 7946 0958",
+    postcode: "SW1A 1AA",
+    vendorType: "Independent",
+    serviceOffering: "Housekeeping",
+    signupDate: "2024-05-01",
+    status: undefined,
+  },
+  {
+    id: "sp-design-2",
+    email: "Gler@app.com",
+    phoneNumber: "+44 20 7946 0958",
+    postcode: "M1 1AE",
+    vendorType: "Company",
+    serviceOffering: "Window Cleaning",
+    signupDate: "2025-03-21",
+    status: "Onboarded",
+  },
+  {
+    id: "sp-design-3",
+    email: "Albertwatson@gmail.com",
+    phoneNumber: "+44 20 7946 0958",
+    postcode: "OX1 2JD",
+    vendorType: "Independent",
+    serviceOffering: "Housekeeping",
+    signupDate: "2023-10-11",
+    status: "Rejected",
+  },
+]
+
 const vendorTypes = ["Independent", "Company"] as const
 const statuses = ["Onboarded", "Rejected"] as const
 const services = [
@@ -43,5 +76,7 @@ export function generateServiceProviders(
   }))
 }
 
-export const mockServiceProviders =
-  generateServiceProviders(60)
+export const mockServiceProviders: ServiceProvider[] = [
+  ...designRows,
+  ...generateServiceProviders(57),
+]
