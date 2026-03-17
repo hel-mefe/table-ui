@@ -19,16 +19,19 @@ export const SidebarContainer = styled(Box)(({ theme }) => ({
 export const SidebarTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
     backgroundColor: "#FFFFFF",
-    borderRadius: "8px",
-    width: "100%",
+    borderRadius: "4px",
+    width: "127px",
+    height: "38px",
     "& fieldset": { borderColor: "#DDE2E8" },
     "&:hover fieldset": { borderColor: "#1A78F2" },
   },
   "& .MuiInputBase-input": {
-    padding: "10px 14px",
-    fontSize: "14px",
+    padding: "0px 2px",
+    paddingLeft: "12px",
     fontWeight: 600,
     color: "#324054",
+    height: "38px",
+    boxSizing: "border-box",
   },
 })
 

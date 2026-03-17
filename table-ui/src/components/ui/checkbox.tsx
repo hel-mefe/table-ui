@@ -7,7 +7,6 @@ export const SidebarCheckboxLabel = styled(FormControlLabel)({
   },
 })
 
-// 1. Define the base "box" look (Unchecked)
 const BpIcon = styled("span")(() => ({
   borderRadius: 6,
   width: 22,
@@ -17,18 +16,16 @@ const BpIcon = styled("span")(() => ({
   boxSizing: "border-box",
   display: "block",
   "input:hover ~ &": {
-    backgroundColor: "#E8F1FD", // subtle blue hover, not white
+    backgroundColor: "#E8F1FD",
   },
 }))
 
-// 2. Define the "Checked" look
 const BpCheckedIcon = styled(BpIcon)({
   backgroundColor: "#1A78F2",
   borderColor: "#1A78F2",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  // Override base hover so checked stays solid blue
   "input:hover ~ &": {
     backgroundColor: "#1A78F2",
   },
@@ -43,7 +40,6 @@ const BpCheckedIcon = styled(BpIcon)({
   },
 })
 
-// 3. The Final Component
 export const AppCheckbox = (props: CheckboxProps) => {
   return (
     <Checkbox

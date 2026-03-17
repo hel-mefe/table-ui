@@ -1,6 +1,6 @@
 import { Box } from "@mui/material"
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone"
-import MailOutlineIcon from "@mui/icons-material/MailOutline"
+import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined"
 
 import Avatar from "../avatar"
 import { Profile } from "../../features/profile/profile.types"
@@ -20,9 +20,9 @@ export default function NavbarActions({ profile }: NavbarActionsProps) {
       }}
     >
 
-      <NotificationsNoneIcon sx={{ cursor: "pointer" }} />
+      <NotificationsNoneIcon sx={{ cursor: "pointer", color: "#677582" }} />
 
-      <MailOutlineIcon sx={{ cursor: "pointer" }} />
+      <ForumOutlinedIcon sx={{ cursor: "pointer", color: "#677582" }} />
 
       <Avatar profile={profile} />
 

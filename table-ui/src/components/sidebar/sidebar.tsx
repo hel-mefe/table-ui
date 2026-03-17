@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
   Button,
   Stack,
-  FormControlLabel,
 } from "@mui/material";
 import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -14,10 +13,11 @@ import { useWaitlistStore, WaitlistFilters } from '../../stores/waitlist.store';
 import {
   SidebarContainer,
   SidebarTextField,
-  SidebarSectionContainer,
-  SidebarSectionTitle,
 } from "../ui/sidebar";
-import { AppCheckbox } from "../ui/checkbox";
+import { GlerAdminPanel } from "./gler-admin-panel";
+import { SidebarCheckbox } from "./sidebar-checkbox";
+import { SidebarSection } from "./sidebar-section";
+
 
 const datePickerStyle = {
   width: '124px',
@@ -54,48 +54,7 @@ const helperTextStyle = {
   textAlign: 'center',
 };
 
-// --- Reusable Sub-components ---
 
-const CustomCheckbox = ({ 
-  label, 
-  checked, 
-  onChange 
-}: { 
-  label: string; 
-  checked: boolean; 
-  onChange: (checked: boolean) => void 
-}) => (
-  <FormControlLabel
-    control={
-      <AppCheckbox
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-      />
-    }
-    label={
-      <Typography sx={{ fontSize: "14px", color: "#324054", fontWeight: 500 }}>
-        {label}
-      </Typography>
-    }
-    sx={{ margin: 0 }}
-  />
-);
-
-interface SidebarSectionProps {
-  title: string;
-  children: React.ReactNode;
-}
-
-const SidebarSection = ({ title, children }: SidebarSectionProps) => (
-  <SidebarSectionContainer spacing="10px">
-    <SidebarSectionTitle>
-      {title}
-    </SidebarSectionTitle>
-    <Box>{children}</Box>
-  </SidebarSectionContainer>
-);
-
-// --- Main Component ---
 
 export default function Sidebar() {
   const storeFilters = useWaitlistStore((s) => s.filters);
@@ -130,7 +89,7 @@ export default function Sidebar() {
 
   const handleClear = () => {
     clearStoreFilters();
-    setLocalFilters({ // Clear locally immediately
+    setLocalFilters({
       postcode: '',
       status: [],
       dateStart: null,
@@ -144,16 +103,9 @@ export default function Sidebar() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <SidebarContainer>
-        <Box>
+        <Box sx={{display: 'flex', flexDirection: 'column', gap: '24px'}}>
           {/* Header Logo */}
-          <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 4 }}>
-            <Typography sx={{ color: "#1A78F2", fontWeight: 800, fontSize: "24px" }}>
-              gler<Box component="span" sx={{ color: "#FFD700", ml: 0.2 }}>✦</Box>
-            </Typography>
-            <Typography sx={{ color: "#1A78F2", fontSize: "16px", fontWeight: 600 }}>
-              Admin Panel
-            </Typography>
-          </Stack>
+          <GlerAdminPanel />
 
           {/* User Management Badge */}
           <Box sx={{ backgroundColor: "#DDE2E8", borderRadius: "8px", py: 1.2, px: 2, mb: 4 }}>
@@ -176,12 +128,12 @@ export default function Sidebar() {
           {/* Registration Status Section */}
           <SidebarSection title="Registration Status">
             <Stack>
-              <CustomCheckbox 
+              <SidebarCheckbox 
                 label="Onboarded" 
                 checked={localFilters.status.includes('Onboarded')}
                 onChange={() => toggleArrayItem('status', 'Onboarded')}
               />
-              <CustomCheckbox 
+              <SidebarCheckbox 
                 label="Rejected" 
                 checked={localFilters.status.includes('Rejected')}
                 onChange={() => toggleArrayItem('status', 'Rejected')}
@@ -230,12 +182,12 @@ export default function Sidebar() {
           {/* Vendor Type Section */}
           <SidebarSection title="Vendor Type">
             <Stack>
-              <CustomCheckbox 
+              <SidebarCheckbox 
                 label="Independent" 
                 checked={localFilters.vendorType.includes('Independent')}
                 onChange={() => toggleArrayItem('vendorType', 'Independent')}
               />
-              <CustomCheckbox 
+              <SidebarCheckbox 
                 label="Company" 
                 checked={localFilters.vendorType.includes('Company')}
                 onChange={() => toggleArrayItem('vendorType', 'Company')}
@@ -246,17 +198,17 @@ export default function Sidebar() {
           {/* Service Offering Section */}
           <SidebarSection title="Service Offering">
             <Stack>
-              <CustomCheckbox 
+              <SidebarCheckbox 
                 label="Housekeeping" 
                 checked={localFilters.serviceOffering.includes('Housekeeping')}
                 onChange={() => toggleArrayItem('serviceOffering', 'Housekeeping')}
               />
-              <CustomCheckbox 
+              <SidebarCheckbox 
                 label="Window Cleaning" 
                 checked={localFilters.serviceOffering.includes('Window Cleaning')}
                 onChange={() => toggleArrayItem('serviceOffering', 'Window Cleaning')}
               />
-              <CustomCheckbox 
+              <SidebarCheckbox 
                 label="Car Valet" 
                 checked={localFilters.serviceOffering.includes('Car Valet')}
                 onChange={() => toggleArrayItem('serviceOffering', 'Car Valet')}
